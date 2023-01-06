@@ -37,6 +37,9 @@ class SearchDetailsSpecific:
     def __init__(self, book_details_lite, book_details_json):
         super().__init__()
         self.book_details_lite = book_details_lite
+        self.subtitle = book_details_json["volumeInfo"].get(
+            "subtitle", ""
+        )
         self.description = book_details_json["volumeInfo"].get(
             "description", "NA"
         )
@@ -48,6 +51,9 @@ class SearchDetailsSpecific:
         for val in isbn:
             if val["type"] == "ISBN_13":
                 self.isbn13 = val["identifier"]
+        self.book_link = book_details_json["volumeInfo"].get(
+            "previewLink", "NA"
+        )
 # fl_json = open('vol.json', "r")
 # book_list = json.loads(fl_json.read())
 # fl_json.close()

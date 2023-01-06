@@ -44,11 +44,15 @@ class BookDetails(UserControl):
     # Entry form function
     # def build(self):
         # Set three variables as the entry form text fields
+        complete_title = f"{self.book_details.book_details_lite.title}: {self.book_details.subtitle}"
+        if (self.book_details.subtitle in complete_title) or (len(complete_title) > 72):
+            complete_title = self.book_details.book_details_lite.title
+
         self.the_title = CopyInfoField(
-            title=f"{self.book_details.book_details_lite.title}",
+            title=complete_title,
         )
         self.full_title = CopyInfoField(
-            title=f"{self.book_details.book_details_lite.title} by {self.book_details.book_details_lite.authors_f}",
+            title=f"{complete_title} by {self.book_details.book_details_lite.authors_f}",
         )
         self.isbn13 = CopyInfoField(
             title=self.book_details.isbn13
@@ -70,6 +74,9 @@ class BookDetails(UserControl):
             title=f"[align=center][b][u]About the E-Book[/u][/b][/align]\n{self.final_desc}",
             no_wrap=False,
             max_lines=4,
+        )
+        self.book_link = CopyInfoField(
+            title=self.book_details.book_link
         )
 
         self.host_image = ImageUploadField()
@@ -99,7 +106,7 @@ class BookDetails(UserControl):
                             spacing=2,
                             controls=[
                                 Text(
-                                    f"{self.book_details.book_details_lite.title} by {self.book_details.book_details_lite.authors_f}",
+                                    f"{complete_title} by {self.book_details.book_details_lite.authors_f}",
                                     size=14,
                                     weight='w700',
                                     color='#d7ccc9',
@@ -129,12 +136,13 @@ class BookDetails(UserControl):
                 ),
             ),
             content=Column(
-                [
+                controls=[
                     self.the_title,
                     self.full_title,
                     self.isbn13,
                     self.specific_desc,
                     self.general_desc,
+                    self.book_link,
                     self.host_image,
                 ],
                 spacing=8,
